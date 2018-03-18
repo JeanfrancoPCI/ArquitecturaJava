@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Formulario Libro</title>
+<script type="text/javascript">
+	function validacion() {
+		if (document.forms[0].isbn.value == "")
+			alert("datos no validos"); 
+		else
+			document.forms[0].submit();
+	} 
+</script>
 </head>
 <body>
 	<h1>Formulario alta Libro</h1>
