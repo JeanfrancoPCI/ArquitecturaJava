@@ -2,6 +2,6 @@
 /.settings/
 .project
 .classpath
-.idea/
+/.idea/
 Aplicacion01HTML/Aplicacion01HTML.iml
-out/
+/out/
