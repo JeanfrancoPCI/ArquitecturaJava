@@ -12,34 +12,48 @@
     <select name="categoria">
 	    <option value="seleccionar">seleccionar</option>
         <%
-            ResultSet rs=null;
+            ResultSet rs = null;
             try {
                 String consultaSQL = "select distinct(categoria) from Libros";
                 DataBaseHelper helper = new DataBaseHelper();
                 rs = helper.seleccionarRegistros(consultaSQL);
 
-                while(rs.next()) { %>
-
-        <option value="<%= rs.getString("categoria") %>">
-            <%=rs.getString("categoria")%></option>
+                while(rs.next()) { 
+        %>
+        <option value="<%= rs.getString("categoria") %>"><%=rs.getString("categoria")%></option>
         <%
                 }
+            }
+            catch (SQLException e) {
+                System.out.println("Error accediendo a la base de datos " + e.getMessage());
+            }
+            finally {
+                if (rs != null) {
+                    try {
+                        rs.close();
+                    }
+                    catch (SQLException e) {
+                        System.out.println("Error cerrando el resultset " + e.getMessage());
+                    }
+                }
+            }
         %>
     </select>
     <br/>
     <%
-                rs = null;
-                consultaSQL = "select isbn,titulo,categoria from Libros";
-                helper = new DataBaseHelper();
-                rs = helper.seleccionarRegistros(consultaSQL);
-                while (rs.next()) {
-    %>
+		try {
+			String consultaSQL = "select isbn,titulo,categoria from Libros";
+            DataBaseHelper helper = new DataBaseHelper();
+			rs = helper.seleccionarRegistros(consultaSQL);
+       		while (rs.next()) {
+			%>
             <%=		rs.getString("isbn")		%>
             <%=		rs.getString("titulo")		%>
             <%=		rs.getString("categoria")	%>
     <br/>
-    <% 		    }
-        }
+    <% 		
+    		}
+       	}
         catch (SQLException e) {
             System.out.println("Error accediendo a la base de datos " + e.getMessage());
         }
