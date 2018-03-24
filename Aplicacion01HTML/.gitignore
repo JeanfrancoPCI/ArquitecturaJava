@@ -1,4 +1,11 @@
 /build/
 /.settings/
 .project
+<<<<<<< HEAD
 .classpath
+=======
+.classpath
+/.idea/
+Aplicacion01HTML/Aplicacion01HTML.iml
+/out/
+>>>>>>> 03.DRY_y_JSP
