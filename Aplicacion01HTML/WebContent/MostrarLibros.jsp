@@ -2,7 +2,7 @@
 <%@ page import="com.arquitecturajava.DataBaseHelper" %>
 <%@ page import="java.sql.SQLException" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <%@ page import="com.arquitecturajava.Libro" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -14,7 +14,7 @@
     <select name="categoria">
 	    <option value="seleccionar">seleccionar</option>
         <%
-	        ArrayList<String> listaDeCategorias = null;
+	        List<String> listaDeCategorias = null;
         	listaDeCategorias = Libro.buscarTodasLasCategorias();
 	    	for(String categoria: listaDeCategorias) { 
         %>
@@ -25,7 +25,7 @@
     </select>
     <br/>
     <%
-    	ArrayList<Libro> listaDeLibros = null;
+    	List<Libro> listaDeLibros = null;
     	listaDeLibros = Libro.buscarTodos();
     	for(Libro libro: listaDeLibros) {
     	%>
