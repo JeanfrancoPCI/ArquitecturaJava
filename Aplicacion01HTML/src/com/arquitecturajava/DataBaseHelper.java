@@ -27,10 +27,12 @@ public class DataBaseHelper<T> {
 			filasAfectadas = sentencia.executeUpdate(consultaSQL);
 		} 
 		catch (ClassNotFoundException e) {
-			System.out.println("Error driver " + e.getMessage()); 
+			System.out.println("Clase no encontrada " + e.getMessage()); 
+			throw new DataBaseException("Clase no encontrada", e);
 		} 
 		catch (SQLException e) {
 			System.out.println("Error de SQL " + e.getMessage()); 
+			throw new DataBaseException("Erros de SQL", e);
 		} 
 		finally {
 			if (sentencia != null) {
@@ -83,6 +85,7 @@ public class DataBaseHelper<T> {
 		} 
 		catch (Exception e) {
 			System.out.println("Error al seleccionar registros " + e.getCause());
+			throw new DataBaseException("Error al seleccionar registros", e);
 		}
 		finally {
 			if(sentencia != null) {
