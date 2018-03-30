@@ -5,4 +5,15 @@
   	<exception-type>java.lang.RuntimeException</exception-type>
   	<location>/Error.jsp</location>
   </error-page>
+  
+  <servlet>
+	<description></description>
+	<display-name>ControladorLibros</display-name>
+	<servlet-name>ControladorLibros</servlet-name>
+	<servlet-class>com.arquitecturajava.aplicacion.ControladorLibros</servlet-class>
+  </servlet>
+  <servlet-mapping>
+	<servlet-name>ControladorLibros</servlet-name>
+	<url-pattern>/</url-pattern>
+  </servlet-mapping>
 </web-app>	
