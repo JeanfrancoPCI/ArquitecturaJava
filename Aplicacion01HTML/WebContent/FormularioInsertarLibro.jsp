@@ -10,7 +10,7 @@
 <title>Formulario Libro</title>
 </head>
 <body>
-	<form action="InsertarLibro.jsp" onsubmit="return validacion();">
+	<form action="InsertarLibro.do" onsubmit="return validacion();">
 		<fieldset>
 			<legend>Formulario alta libro</legend>
 			<p><label for="isbn">ISBN: </label><input type="text" name="isbn" id="isbn" /></p>
@@ -18,13 +18,13 @@
 			<p><label for="categoria">Categoria: </label>
 			<select name="categoria">
 			    <option value="seleccionar">seleccionar</option>
-		        <%
-			        List<String> listaDeCategorias = null;
-		        	listaDeCategorias = Libro.buscarTodasLasCategorias();
-			    	for(String categoria: listaDeCategorias) { 
-		        %>
-		        <option value="<%=categoria%>"><%=categoria%></option>
-		        <%
+		        <%   	
+		        	List<String> listaDeCategorias = null;
+			        listaDeCategorias = (List<String>) request.getAttribute("listaDeCategorias");
+				    for (String categoria: listaDeCategorias) {
+				%>
+				    	<option value="<%=categoria%>"><%=categoria%></option>		
+				<%		    	
 		        	}
 		        %>
 		    </select>

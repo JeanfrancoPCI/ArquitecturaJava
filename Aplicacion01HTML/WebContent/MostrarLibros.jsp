@@ -8,11 +8,10 @@
 <title>Lista de Libros</title>
 </head>
 <body>
-<form action="MostrarLibros.jsp">
+<form action="MostrarLibros.do">
     <select name="categoria">
 	    <option value="seleccionar">seleccionar</option>
-        <%
-        	
+        <%   	
         	List<String> listaDeCategorias = null;
 	        listaDeCategorias = (List<String>) request.getAttribute("listaDeCategorias");
 		    for (String categoria: listaDeCategorias) { 
@@ -43,7 +42,7 @@
 	    <%
 	    }
     %>
-    <a href="FormularioInsertarLibro.jsp">Insertar Libro</a>
+    <a href="FormularioInsertarLibro.do">Insertar Libro</a>
 </form>
 </body>
 </html>
