@@ -12,7 +12,7 @@
 <title>Editar Libro</title>
 </head>
 <body>
-	<form id="formularioEdicion" action="SalvarLibro.jsp">
+	<form id="formularioEdicion" action="SalvarLibro.do">
 		<fieldset>
 			<legend>Formulario alta libro</legend>
 			<p>

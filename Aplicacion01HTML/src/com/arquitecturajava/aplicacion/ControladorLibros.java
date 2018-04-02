@@ -20,6 +20,10 @@ public class ControladorLibros extends HttpServlet {
 		RequestDispatcher despachador = null;
 		List<Libro> listaDeLibros = null;
 		List<String> listaDeCategorias = null;
+		Libro libro = null;
+		String isbn = null;
+		String titulo = null;
+		String categoria = null;
 		
 		if(request.getServletPath() != null) {
 			switch (request.getServletPath()) {
@@ -49,11 +53,36 @@ public class ControladorLibros extends HttpServlet {
 					despachador.forward(request, response);
 					break;
 				case "/InsertarLibro.do":
-					String isbn = request.getParameter("isbn");
-					String titulo = request.getParameter("titulo");
-					String categoria = request.getParameter("categoria");
-					Libro libro = new Libro(isbn, titulo, categoria);
+					isbn = request.getParameter("isbn");
+					titulo = request.getParameter("titulo");
+					categoria = request.getParameter("categoria");
+					libro = new Libro(isbn, titulo, categoria);
 					libro.insertar();
+					despachador = request.getRequestDispatcher("MostrarLibros.do");
+					despachador.forward(request, response);
+					break;
+				case "/BorrarLibro.do":
+					isbn = request.getParameter("isbn");
+					libro = new Libro(isbn);
+					libro.borrar();
+					despachador = request.getRequestDispatcher("MostrarLibros.do");
+					despachador.forward(request, response);
+					break;
+				case "/FormularioEditarLibro.do":
+					isbn = request.getParameter("isbn");
+					listaDeCategorias = Libro.buscarTodasLasCategorias(); 
+					libro = Libro.buscarPorClave(isbn); 
+					request.setAttribute("listaDeCategorias", listaDeCategorias); 
+					request.setAttribute("libro", libro);
+					despachador = request.getRequestDispatcher("FormularioEditarLibro.jsp");
+					despachador.forward(request, response);
+					break;
+				case "/SalvarLibro.do":
+					isbn = request.getParameter("isbn");
+					titulo = request.getParameter("titulo");
+					categoria = request.getParameter("categoria");
+					libro = new Libro(isbn, titulo, categoria);
+					libro.salvar();
 					despachador = request.getRequestDispatcher("MostrarLibros.do");
 					despachador.forward(request, response);
 					break;
