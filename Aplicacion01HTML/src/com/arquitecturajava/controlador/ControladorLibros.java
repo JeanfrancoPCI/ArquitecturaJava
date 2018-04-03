@@ -1,4 +1,4 @@
-package com.arquitecturajava.aplicacion;
+package com.arquitecturajava.controlador;
 
 import java.io.IOException;
 import java.util.List;
