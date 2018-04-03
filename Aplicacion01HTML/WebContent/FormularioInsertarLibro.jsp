@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.arquitecturajava.Libro" %>
 <%@ page import="java.util.List" %>
 <!DOCTYPE html>
@@ -17,16 +18,9 @@
 			<p><label for="titulo">Titulo: </label><input type="text" name="titulo" id="titulo" /></p>
 			<p><label for="categoria">Categoria: </label>
 			<select name="categoria">
-			    <option value="seleccionar">seleccionar</option>
-		        <%   	
-		        	List<String> listaDeCategorias = null;
-			        listaDeCategorias = (List<String>) request.getAttribute("listaDeCategorias");
-				    for (String categoria: listaDeCategorias) {
-				%>
-				    	<option value="<%=categoria%>"><%=categoria%></option>		
-				<%		    	
-		        	}
-		        %>
+			    <c:forEach var="categoria" items="${listaDeCategorias}">
+					<option value="${categoria}">${categoria}</option>
+		        </c:forEach>
 		    </select>
 		    <br/>
 			</p>

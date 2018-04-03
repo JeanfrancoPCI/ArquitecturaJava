@@ -1,5 +1,5 @@
-<%@ page import="com.arquitecturajava.Libro"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.arquitecturajava.Libro" %>
 <%@ page import="java.util.List" %>
 <% Libro libro = Libro.buscarPorClave(request.getParameter("isbn")); %>
@@ -26,19 +26,10 @@
 			<p>
 				<label for="categoria">Categoría: </label>
 				<select name="categoria">
-				<%
-					List<String> listaDeCategorias = null;
-					listaDeCategorias = Libro.buscarTodasLasCategorias();
-					for(String categoria: listaDeCategorias) {
-						if(libro.getCategoria().equals(categoria)) { %>
-					<option value="<%= categoria%>" selected="selected"><%=categoria%></option>
-					<%	}
-						else { %>
-					<option value="<%=categoria%>"><%=categoria %></option>
-					<%  }
-					}
-				%>
-				</select>
+			        <c:forEach var="categoria2" items="${listaDeCategorias}">
+						<option value="${categoria2}" ${categoria == categoria2 ? 'selected' : ''}>${categoria2}</option>
+			        </c:forEach>
+			    </select>
 				<br />
 			</p>
 			<p><input type="submit" value="Salvar" /></p>

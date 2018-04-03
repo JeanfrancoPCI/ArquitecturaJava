@@ -35,12 +35,15 @@ public class ControladorLibros extends HttpServlet {
 							listaDeLibros = Libro.buscarTodos();
 						else 
 							listaDeLibros = Libro.buscarPorCategoria(request.getParameter("categoria"));
+						
+						categoria = request.getParameter("categoria");
 					}
 					else {
-						request.setAttribute("categoria", "seleccionar");
+						categoria = "seleccionar";
 						listaDeLibros = Libro.buscarTodos();
 					}
 					
+					request.setAttribute("categoria", categoria);
 					request.setAttribute("listaDeLibros", listaDeLibros); 
 					request.setAttribute("listaDeCategorias", listaDeCategorias); 
 					despachador = request.getRequestDispatcher("MostrarLibros.jsp");
