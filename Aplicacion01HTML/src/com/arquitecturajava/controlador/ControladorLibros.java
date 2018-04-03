@@ -19,11 +19,14 @@ public class ControladorLibros extends HttpServlet {
 		RequestDispatcher despachador = null;
 		Accion accion = null;
 		String url = request.getServletPath();
-		accion = Accion.getAccion(url);
 		
-		if(accion != null) {
-			despachador = request.getRequestDispatcher(accion.ejecutar(request, response));
-			despachador.forward(request, response);
+		if(url.contains(".do")) {
+			accion = Accion.getAccion(url.substring(1, url.length()-3));
+		
+			if(accion != null) {
+				despachador = request.getRequestDispatcher(accion.ejecutar(request, response));
+				despachador.forward(request, response);
+			}
 		}
 	}
 

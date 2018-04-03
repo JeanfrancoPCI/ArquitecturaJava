@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.arquitecturajava.Libro;
 
-public class FormularioInsertarLibro extends Accion {
+public class FormularioInsertarLibroAccion extends Accion {
 
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {

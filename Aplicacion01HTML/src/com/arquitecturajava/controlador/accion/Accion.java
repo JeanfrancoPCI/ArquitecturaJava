@@ -9,27 +9,23 @@ public abstract class Accion {
 	public static Accion getAccion(String tipo) {
 		Accion accion = null;
 		
-		switch (tipo) {
-			case "/MostrarLibros.do":
-				accion = new MostrarLibrosAccion();
-				break;
-			case "/FormularioInsertarLibro.do":
-				accion = new FormularioInsertarLibro();
-				break;
-			case "/InsertarLibro.do":
-				accion = new InsertarLibroAccion();
-				break;
-			case "/BorrarLibro.do":
-				accion = new BorrarLibroAccion();
-				break;
-			case "/FormularioEditarLibro.do":
-				accion = new FormularioEditarLibroAccion();
-				break;
-			case "/SalvarLibro.do":
-				accion = new SalvarLibroAccion();
-				break;
+		try {
+			accion = (Accion) Class.forName(getPackage() + "." + tipo + "Accion").newInstance();
+		} 
+		catch (InstantiationException e) { 
+			e.printStackTrace();
+		} 
+		catch (IllegalAccessException e) { 
+			e.printStackTrace();
+		} 
+		catch (ClassNotFoundException e) { 
+			e.printStackTrace();
 		}
 		
 		return accion;
+	}
+	
+	public static String getPackage() {
+		return Accion.class.getPackage().getName();
 	}
 }
