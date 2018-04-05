@@ -10,9 +10,7 @@ public class BorrarLibroAccion extends Accion {
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
 		String isbn = request.getParameter("isbn");
-		Libro libro = new Libro(isbn);
-		libro.borrar();
+		Libro.borrar(isbn);
 		return "MostrarLibros.do";
 	}
-
 }

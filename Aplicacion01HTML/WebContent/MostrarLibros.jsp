@@ -22,7 +22,7 @@
 <c:forEach var="libro" items="${listaDeLibros}">
 	${libro.isbn} 
 	${libro.titulo} 
-	${libro.categoria}
+	${libro.categoria.descripcion}
 	<a href="BorrarLibro.do?isbn=${libro.isbn}">Borrar</a>
 	<a href="FormularioEditarLibro.do?isbn=${libro.isbn}">Editar</a>
 	<br />

@@ -4,13 +4,14 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
-import com.arquitecturajava.DataBaseHelper;
 import com.arquitecturajava.HibernateHelper;
 
 @Entity 
@@ -20,7 +21,9 @@ public class Libro {
 	@Id
 	private String isbn;
 	private String titulo;
-	private String categoria;
+	@ManyToOne
+	@JoinColumn(name="categoria")
+	private Categoria categoria;
 	
 	public Libro() {
 	}
@@ -29,7 +32,7 @@ public class Libro {
 		this.isbn = isbn;
 	}
 
-	public Libro(String isbn, String titulo, String categoria) {
+	public Libro(String isbn, String titulo, Categoria categoria) {
 		this.isbn = isbn;
 		this.titulo = titulo;
 		this.categoria = categoria;
@@ -51,11 +54,11 @@ public class Libro {
 		this.titulo = titulo;
 	}
 
-	public String getCategoria() {
+	public Categoria getCategoria() {
 		return categoria;
 	}
 
-	public void setCategoria(String categoria) {
+	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
 	
@@ -69,33 +72,40 @@ public class Libro {
 		String isbnLibro = ((Libro) o).getIsbn();
 		return isbnLibro.equals(isbn);
 	}
-	
+
 	public void insertar() {
 		SessionFactory factoriaSession = HibernateHelper.getSessionFactory();
 		Session session = factoriaSession.openSession();
 		session.beginTransaction();
 		session.save(this);
 		session.getTransaction().commit();
+		session.close();
 	}
 	
 	public void salvar() {
-		String consultaSQL = "update Libros set titulo='" + this.titulo + "', categoria='" + this.categoria + 
-			"' where isbn='" + this.isbn + "'";
-		DataBaseHelper<Libro> helper = new DataBaseHelper<Libro>();
-		helper.modificarRegistro(consultaSQL);
+		SessionFactory factoriaSession = HibernateHelper.getSessionFactory();
+		Session session = factoriaSession.openSession();
+		session.beginTransaction();
+		session.update(this);
+		session.getTransaction().commit();
+		session.close();
 	}
 	
-	public void borrar() {
-		String consultaSQL = "delete from Libros where isbn='" + this.isbn + "'";
-		DataBaseHelper<Libro> helper =  new DataBaseHelper<Libro>();
-		helper.modificarRegistro(consultaSQL);
+	public static void borrar(String isbn) {
+		SessionFactory factoriaSesion = HibernateHelper.getSessionFactory();
+		Session session = factoriaSesion.openSession();
+		session.beginTransaction();
+		Libro libro = session.get(Libro.class, isbn);
+		session.delete(libro);
+		session.getTransaction().commit();
+		session.close();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public static List<Libro> buscarTodos() {
 		SessionFactory factoriaSesion = HibernateHelper.getSessionFactory();
 		Session session = factoriaSesion.openSession();
-		List<Libro> listaDeLibros = session.createQuery(" from Libro libro").list();
+		List<Libro> listaDeLibros = session.createQuery(" from Libro libro right join fetch libro.categoria").list();
 		session.close();
 		return listaDeLibros;
 	}
@@ -103,7 +113,7 @@ public class Libro {
 	public static Libro buscarPorClave(String isbn) {
 		SessionFactory factoriaSession = HibernateHelper.getSessionFactory();
 		Session session = factoriaSession.openSession();
-		Libro libro = (Libro) session.get(Libro.class, isbn);
+		Libro libro = session.get(Libro.class, isbn);
 		session.close();
 		return libro;
 	}
@@ -112,7 +122,7 @@ public class Libro {
 	public static List<Libro> buscarPorCategoria (String categoria) {
 		SessionFactory factoriaSesion = HibernateHelper.getSessionFactory();
 		Session session = factoriaSesion.openSession();
-		Query<Libro> consulta = session.createQuery(" from Libro libro where libro.categoria=:categoria");
+		Query<Libro> consulta = session.createQuery(" from Libro libro where libro.categoria.id=:categoria");
 		consulta.setParameter("categoria", categoria);
 		List<Libro> listaDeLibro = consulta.list();
 		session.close();
