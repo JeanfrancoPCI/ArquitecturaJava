@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.arquitecturajava.bo.Categoria;
 import com.arquitecturajava.bo.Libro;
 
 public class MostrarLibrosAccion extends Accion {
@@ -13,7 +14,7 @@ public class MostrarLibrosAccion extends Accion {
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
 		List<Libro> listaDeLibros = null;
 		String categoria = null;
-		List<Libro> listaDeCategorias = Libro.buscarTodasLasCategorias();
+		List<Categoria> listaDeCategorias = Categoria.buscarTodos();
 		
 		if (request.getParameter("categoria") != null) {
 			if (request.getParameter("categoria").equals("seleccionar"))

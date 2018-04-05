@@ -13,13 +13,16 @@
     <select name="categoria">
 	    <option value="seleccionar">seleccionar</option>
         <c:forEach var="categoria2" items="${listaDeCategorias}">
-			<option value="${categoria2}" ${categoria == categoria2 ? 'selected' : ''}>${categoria2}</option>
+			<option value="${categoria2.id}" ${categoria == categoria2.id ? 'selected' : ''}>
+				${categoria2.descripcion}</option>
         </c:forEach>
     </select>
     <input type="submit" value="Filtrar" />
 </form>
 <c:forEach var="libro" items="${listaDeLibros}">
-	${libro.isbn} ${libro.titulo} ${libro.categoria}
+	${libro.isbn} 
+	${libro.titulo} 
+	${libro.categoria}
 	<a href="BorrarLibro.do?isbn=${libro.isbn}">Borrar</a>
 	<a href="FormularioEditarLibro.do?isbn=${libro.isbn}">Editar</a>
 	<br />
