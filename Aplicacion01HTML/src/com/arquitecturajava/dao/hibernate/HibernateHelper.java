@@ -1,4 +1,4 @@
-package com.arquitecturajava;
+package com.arquitecturajava.dao.hibernate;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

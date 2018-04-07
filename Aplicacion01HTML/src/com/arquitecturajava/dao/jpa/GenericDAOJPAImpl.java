@@ -42,7 +42,7 @@ public abstract class GenericDAOJPAImpl<T, Id extends Serializable> implements G
 		EntityManager manager = factoriaSession.createEntityManager(); 
 		List<T> listaDeObjetos = null;
 		try {
-			TypedQuery<T> consulta = manager.createQuery("select o from " + claseDePersistencia.getSimpleName()+ " o", claseDePersistencia);
+			TypedQuery<T> consulta = manager.createQuery("select o from " + claseDePersistencia.getSimpleName() + " o", claseDePersistencia);
 			listaDeObjetos = consulta.getResultList();
 			return listaDeObjetos; 
 		} 

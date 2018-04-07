@@ -9,15 +9,15 @@ import com.arquitecturajava.bo.Categoria;
 import com.arquitecturajava.bo.Libro;
 import com.arquitecturajava.dao.CategoriaDAO;
 import com.arquitecturajava.dao.LibroDAO;
-import com.arquitecturajava.dao.jpa.CategoriaDAOJPAImpl;
-import com.arquitecturajava.dao.jpa.LibroDAOJPAImpl;
+import com.arquitecturajava.dao.factoria.CategoriaDAOFactory;
+import com.arquitecturajava.dao.factoria.LibroDAOFactory;
 
 public class MostrarLibrosAccion extends Accion {
 
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
-		LibroDAO libroDAO = new LibroDAOJPAImpl();
-		CategoriaDAO categoriaDAO = new CategoriaDAOJPAImpl();
+		LibroDAO libroDAO = LibroDAOFactory.getInstance();
+		CategoriaDAO categoriaDAO = CategoriaDAOFactory.getInstance();
 		List<Libro> listaDeLibros = null;
 		String categoria = null;
 		List<Categoria> listaDeCategorias = categoriaDAO.buscarTodos();
