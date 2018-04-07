@@ -3,16 +3,16 @@ package com.arquitecturajava.bo;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.TypedQuery;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-
-import com.arquitecturajava.HibernateHelper;
+import com.arquitecturajava.JPAHelper;
 
 @Entity 
 @Table(name="Libros")
@@ -74,68 +74,60 @@ public class Libro {
 	}
 
 	public void insertar() {
-		SessionFactory factoriaSession = HibernateHelper.getSessionFactory();
-		Session session = factoriaSession.openSession();
-		session.beginTransaction();
-		session.save(this);
-		session.getTransaction().commit();
-		session.close();
+		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory(); 
+		EntityManager manager = factoriaSession.createEntityManager(); 
+		EntityTransaction tx = manager.getTransaction();
+		tx.begin(); 
+		manager.persist(this);
+		tx.commit();
 	}
 	
 	public void salvar() {
-		SessionFactory factoriaSession = HibernateHelper.getSessionFactory();
-		Session session = factoriaSession.openSession();
-		session.beginTransaction();
-		session.update(this);
-		session.getTransaction().commit();
-		session.close();
+		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory(); 
+		EntityManager manager = factoriaSession.createEntityManager(); 
+		EntityTransaction tx = manager.getTransaction();
+		tx.begin(); 
+		manager.merge(this); 
+		tx.commit(); 
+		manager.close();
 	}
 	
-	public static void borrar(String isbn) {
-		SessionFactory factoriaSesion = HibernateHelper.getSessionFactory();
-		Session session = factoriaSesion.openSession();
-		session.beginTransaction();
-		Libro libro = session.get(Libro.class, isbn);
-		session.delete(libro);
-		session.getTransaction().commit();
-		session.close();
+	public void borrar() {
+		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory(); 
+		EntityManager manager = factoriaSession.createEntityManager(); 
+		EntityTransaction tx = manager.getTransaction();
+		tx.begin(); 
+		manager.remove(manager.merge(this)); 
+		tx.commit();
+		manager.close();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static List<Libro> buscarTodos() {
-		SessionFactory factoriaSesion = HibernateHelper.getSessionFactory();
-		Session session = factoriaSesion.openSession();
-		List<Libro> listaDeLibros = session.createQuery(" from Libro libro right join fetch libro.categoria").list();
-		session.close();
+		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory(); 
+		EntityManager manager = factoriaSession.createEntityManager(); 
+		TypedQuery<Libro> consulta = manager.createQuery("SELECT l FROM Libro l JOIN FETCH l.categoria", Libro.class);
+		List<Libro> listaDeLibros = consulta.getResultList(); 
+		manager.close();
 		return listaDeLibros;
 	}
 	
 	public static Libro buscarPorClave(String isbn) {
-		SessionFactory factoriaSession = HibernateHelper.getSessionFactory();
-		Session session = factoriaSession.openSession();
-		Libro libro = session.get(Libro.class, isbn);
-		session.close();
+		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory();
+		EntityManager manager = factoriaSession.createEntityManager(); 
+		TypedQuery<Libro> consulta = manager.createQuery("SELECT l FROM Libro l JOIN FETCH l.categoria where l.isbn = ?1", Libro.class);
+		consulta.setParameter(1, isbn); 
+		Libro libro = consulta.getSingleResult(); 
+		manager.close();
 		return libro;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static List<Libro> buscarPorCategoria (String categoria) {
-		SessionFactory factoriaSesion = HibernateHelper.getSessionFactory();
-		Session session = factoriaSesion.openSession();
-		Query<Libro> consulta = session.createQuery(" from Libro libro where libro.categoria.id=:categoria");
-		consulta.setParameter("categoria", categoria);
-		List<Libro> listaDeLibro = consulta.list();
-		session.close();
-		return listaDeLibro;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static List<Libro> buscarTodasLasCategorias() {
-		SessionFactory factoriaSession = HibernateHelper.getSessionFactory();
-		Session session = factoriaSession.openSession();
-		String consultaSQL = "select distinct libro.categoria from Libro libro";
-		List<Libro> listaDeCategorias = session.createQuery(consultaSQL).list();
-		session.close();
-		return listaDeCategorias;
+		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory(); 
+		EntityManager manager = factoriaSession.createEntityManager(); 
+		TypedQuery<Libro> consulta = manager.createQuery("SELECT l FROM Libro l WHERE l.categoria.id = ?1", Libro.class);
+		consulta.setParameter(1, categoria); 
+		List<Libro> listaDeLibros = consulta.getResultList(); 
+		manager.close();
+		return listaDeLibros;
 	}
 }

@@ -10,7 +10,8 @@ public class BorrarLibroAccion extends Accion {
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
 		String isbn = request.getParameter("isbn");
-		Libro.borrar(isbn);
+		Libro libro = Libro.buscarPorClave(isbn);
+		libro.borrar();
 		return "MostrarLibros.do";
 	}
 }

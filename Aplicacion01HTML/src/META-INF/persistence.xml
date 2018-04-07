@@ -1,0 +1,18 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence 
+	http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd" version="2.1">
+	<persistence-unit name="arquitecturajava">
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<class>com.arquitecturajava.aplicacion.bo.Libro</class>
+		<class>com.arquitecturajava.aplicacion.bo.Categoria</class>
+		<properties>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="javax.persistence.transactionType" value="RESOURCE_LOCAL" />
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/arquitecturajava" />
+			<property name="javax.persistence.jdbc.user" value="root" />
+			<property name="javax.persistence.jdbc.password" value="123456" /> 
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+		</properties>
+	</persistence-unit>
+</persistence>
