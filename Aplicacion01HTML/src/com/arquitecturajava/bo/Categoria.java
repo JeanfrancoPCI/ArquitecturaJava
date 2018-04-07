@@ -3,15 +3,10 @@ package com.arquitecturajava.bo;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.TypedQuery;
-
-import com.arquitecturajava.JPAHelper;
 
 @Entity
 @Table(name = "Categorias")

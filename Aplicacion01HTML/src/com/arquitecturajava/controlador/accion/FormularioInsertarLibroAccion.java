@@ -7,12 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.arquitecturajava.bo.Categoria;
 import com.arquitecturajava.dao.CategoriaDAO;
+import com.arquitecturajava.dao.jpa.CategoriaDAOJPAImpl;
 
 public class FormularioInsertarLibroAccion extends Accion {
 
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
-		CategoriaDAO categoriaDAO = new CategoriaDAO();
+		CategoriaDAO categoriaDAO = new CategoriaDAOJPAImpl();
 		List<Categoria> listaDeCategorias = categoriaDAO.buscarTodos();
 		request.setAttribute("listaDeCategorias", listaDeCategorias);
 		return "FormularioInsertarLibro.jsp";
