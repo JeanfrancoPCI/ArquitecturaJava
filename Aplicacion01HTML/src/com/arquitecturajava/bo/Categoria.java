@@ -61,23 +61,4 @@ public class Categoria {
 		String categoriaId = ((Categoria) o).getId();
 		return id.equals(categoriaId);
 	}
-
-	public static List<Categoria> buscarTodos() {
-		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory(); 
-		EntityManager manager = factoriaSession.createEntityManager(); 
-		TypedQuery<Categoria> consulta = manager.createQuery("SELECT c FROM Categoria c", Categoria.class);
-		List<Categoria> listaDeCategorias = consulta.getResultList(); 
-		manager.close();
-		return listaDeCategorias;
-	}
-	
-	public static Categoria obtenerPorId(String id) {
-		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory();
-		EntityManager manager = factoriaSession.createEntityManager(); 
-		TypedQuery<Categoria> consulta = manager.createQuery("SELECT c FROM Categoria c WHERE c.id = ?1", Categoria.class);
-		consulta.setParameter(1, id); 
-		Categoria categoria = consulta.getSingleResult(); 
-		manager.close();
-		return categoria;
-	}
 }

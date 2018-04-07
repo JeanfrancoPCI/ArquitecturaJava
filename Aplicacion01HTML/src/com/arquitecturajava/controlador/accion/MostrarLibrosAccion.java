@@ -7,25 +7,29 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.arquitecturajava.bo.Categoria;
 import com.arquitecturajava.bo.Libro;
+import com.arquitecturajava.dao.CategoriaDAO;
+import com.arquitecturajava.dao.LibroDAO;
 
 public class MostrarLibrosAccion extends Accion {
 
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
+		LibroDAO libroDAO = new LibroDAO();
+		CategoriaDAO categoriaDAO = new CategoriaDAO();
 		List<Libro> listaDeLibros = null;
 		String categoria = null;
-		List<Categoria> listaDeCategorias = Categoria.buscarTodos();
+		List<Categoria> listaDeCategorias = categoriaDAO.buscarTodos();
 		
 		if (request.getParameter("categoria") != null) {
 			if (request.getParameter("categoria").equals("seleccionar"))
-				listaDeLibros = Libro.buscarTodos();
+				listaDeLibros = libroDAO.buscarTodos();
 			else
-				listaDeLibros = Libro.buscarPorCategoria(request.getParameter("categoria"));
+				listaDeLibros = libroDAO.buscarPorCategoria(request.getParameter("categoria"));
 
 			categoria = request.getParameter("categoria");
 		} else {
 			categoria = "seleccionar";
-			listaDeLibros = Libro.buscarTodos();
+			listaDeLibros = libroDAO.buscarTodos();
 		}
 
 		request.setAttribute("categoria", categoria);
