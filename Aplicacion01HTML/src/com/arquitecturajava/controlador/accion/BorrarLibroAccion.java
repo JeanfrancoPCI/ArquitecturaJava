@@ -5,13 +5,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.arquitecturajava.bo.Libro;
 import com.arquitecturajava.dao.LibroDAO;
-import com.arquitecturajava.dao.factoria.LibroDAOFactory;
+import com.arquitecturajava.dao.factoria.DAOAbstractFactory;
+import com.arquitecturajava.dao.factoria.DAOFactory;
 
 public class BorrarLibroAccion extends Accion {
 
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
-		LibroDAO libroDAO = LibroDAOFactory.getInstance();
+		DAOFactory factoria = DAOAbstractFactory.getInstance();
+		LibroDAO libroDAO = factoria.getLibroDAO();
 		String isbn = request.getParameter("isbn");
 		Libro libro = libroDAO.buscarPorClave(isbn);
 		libroDAO.borrar(libro);
