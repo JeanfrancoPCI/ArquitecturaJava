@@ -9,6 +9,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PersistenceException;
 import javax.persistence.Table;
 import javax.persistence.TypedQuery;
 
@@ -76,30 +77,55 @@ public class Libro {
 	public void insertar() {
 		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory(); 
 		EntityManager manager = factoriaSession.createEntityManager(); 
-		EntityTransaction tx = manager.getTransaction();
-		tx.begin(); 
-		manager.persist(this);
-		tx.commit();
+		try {
+			EntityTransaction tx = manager.getTransaction();
+			tx.begin(); 
+			manager.persist(this);
+			tx.commit();
+		}
+		catch(PersistenceException e) {
+			manager.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			manager.close();
+		}
 	}
 	
 	public void salvar() {
 		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory(); 
-		EntityManager manager = factoriaSession.createEntityManager(); 
-		EntityTransaction tx = manager.getTransaction();
-		tx.begin(); 
-		manager.merge(this); 
-		tx.commit(); 
-		manager.close();
+		EntityManager manager = factoriaSession.createEntityManager();
+		try {
+			EntityTransaction tx = manager.getTransaction();
+			tx.begin(); 
+			manager.merge(this); 
+			tx.commit();
+		}
+		catch(PersistenceException e) {
+			manager.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			manager.close();
+		}
 	}
 	
 	public void borrar() {
 		EntityManagerFactory factoriaSession = JPAHelper.getJPAFactory(); 
 		EntityManager manager = factoriaSession.createEntityManager(); 
-		EntityTransaction tx = manager.getTransaction();
-		tx.begin(); 
-		manager.remove(manager.merge(this)); 
-		tx.commit();
-		manager.close();
+		try {
+			EntityTransaction tx = manager.getTransaction();
+			tx.begin(); 
+			manager.remove(manager.merge(this)); 
+			tx.commit();
+		}
+		catch(PersistenceException e) {
+			manager.getTransaction().rollback();
+			throw e;
+		}
+		finally {
+			manager.close();
+		}
 	}
 	
 	public static List<Libro> buscarTodos() {
