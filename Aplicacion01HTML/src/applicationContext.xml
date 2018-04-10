@@ -6,5 +6,5 @@
 		
 	<bean id="libroDAO" class="com.arquitecturajava.dao.jpa.LibroDAOJPAImpl"> </bean>
 	<bean id="categoriaDAO" class="com.arquitecturajava.dao.jpa.CategoriaDAOJPAImpl"></bean>
-	
+	<bean id="libroService" class="com.arquitecturajava.servicios.impl.LibroServiceImpl"></bean>
 </beans>

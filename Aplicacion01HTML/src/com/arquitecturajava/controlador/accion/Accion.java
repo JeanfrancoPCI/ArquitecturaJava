@@ -3,6 +3,8 @@ package com.arquitecturajava.controlador.accion;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public abstract class Accion {
 	public abstract String ejecutar(HttpServletRequest request, HttpServletResponse response);
 	
@@ -27,5 +29,11 @@ public abstract class Accion {
 	
 	public static String getPackage() {
 		return Accion.class.getPackage().getName();
+	}
+	
+	@SuppressWarnings("resource")
+	public Object getBean(String nombre) {
+		ClassPathXmlApplicationContext factoria = new ClassPathXmlApplicationContext("applicationContext.xml"); 
+		return factoria.getBean(nombre);
 	}
 }
