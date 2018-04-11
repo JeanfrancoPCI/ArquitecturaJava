@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-		http://www.springframework.org/schema/beans/spring-beans.xsd"> 
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+		 
+	<bean id="fuenteDeDatos" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/arquitecturajava"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="123456"></property>
+	</bean>
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="arquitecturajava"></property>
+		<property name="dataSource" ref="fuenteDeDatos"></property>
+		<property name="jpaDialect">
+        	<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+	    </property>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect"></property>
+				<property name="showSql" value="true"></property>
+			</bean>
+		</property>
+	</bean>
 		
-	<bean id="libroDAO" class="com.arquitecturajava.dao.jpa.LibroDAOJPAImpl"> </bean>
-	<bean id="categoriaDAO" class="com.arquitecturajava.dao.jpa.CategoriaDAOJPAImpl"></bean>
+	<bean id="libroDAO" class="com.arquitecturajava.dao.jpa.LibroDAOJPAImpl">
+		<property name="entityManagerFactory" ref="entityManagerFactory"></property>
+	</bean>
+	<bean id="categoriaDAO" class="com.arquitecturajava.dao.jpa.CategoriaDAOJPAImpl">
+		<property name="entityManagerFactory" ref="entityManagerFactory"></property>
+	</bean>
 	<bean id="libroService" class="com.arquitecturajava.servicios.impl.LibroServiceImpl">
 		<property name="libroDAO" ref="libroDAO"></property>
 		<property name="categoriaDAO" ref="categoriaDAO"></property>
