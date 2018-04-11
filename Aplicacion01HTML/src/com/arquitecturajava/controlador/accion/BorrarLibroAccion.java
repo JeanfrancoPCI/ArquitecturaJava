@@ -10,7 +10,7 @@ public class BorrarLibroAccion extends Accion {
 
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
-		LibroService libroService = (LibroService) getBean("libroService"); 
+		LibroService libroService = (LibroService) getBean("libroService", request); 
 		String isbn = request.getParameter("isbn");
 		Libro libro = libroService.buscarLibroPorClave(isbn);
 		libroService.borrarLibro(libro);

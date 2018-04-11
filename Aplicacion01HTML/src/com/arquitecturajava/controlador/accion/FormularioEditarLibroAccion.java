@@ -13,7 +13,7 @@ public class FormularioEditarLibroAccion extends Accion {
 
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
-		LibroService libroService = (LibroService) getBean("libroService");
+		LibroService libroService = (LibroService) getBean("libroService", request);
 		String isbn = request.getParameter("isbn");
 		List<Categoria> listaDeCategorias = libroService.buscarCategoriasLibros();
 		Libro libro = libroService.buscarLibroPorClave(isbn);

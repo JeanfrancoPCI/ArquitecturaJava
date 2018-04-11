@@ -13,7 +13,7 @@ public class MostrarLibrosAccion extends Accion {
 
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
-		LibroService libroService = (LibroService) getBean("libroService");
+		LibroService libroService = (LibroService) getBean("libroService", request);
 		List<Libro> listaDeLibros = null;
 		String categoria = null;
 		List<Categoria> listaDeCategorias = libroService.buscarCategoriasLibros();

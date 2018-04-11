@@ -11,7 +11,7 @@ public class SalvarLibroAccion extends Accion {
 
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
-		LibroService libroService = (LibroService) getBean("libroService");
+		LibroService libroService = (LibroService) getBean("libroService", request);
 		String isbn = request.getParameter("isbn");
 		String titulo = request.getParameter("titulo");
 		String categoria = request.getParameter("categoria"); 

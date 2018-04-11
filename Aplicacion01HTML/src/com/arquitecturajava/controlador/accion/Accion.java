@@ -3,7 +3,8 @@ package com.arquitecturajava.controlador.accion;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 public abstract class Accion {
 	public abstract String ejecutar(HttpServletRequest request, HttpServletResponse response);
@@ -31,9 +32,9 @@ public abstract class Accion {
 		return Accion.class.getPackage().getName();
 	}
 	
-	@SuppressWarnings("resource")
-	public Object getBean(String nombre) {
-		ClassPathXmlApplicationContext factoria = new ClassPathXmlApplicationContext("applicationContext.xml"); 
+	public Object getBean(String nombre, HttpServletRequest request) {
+		WebApplicationContext factoria = WebApplicationContextUtils
+					.getRequiredWebApplicationContext(request.getSession().getServletContext());
 		return factoria.getBean(nombre);
 	}
 }

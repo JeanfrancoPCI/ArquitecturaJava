@@ -12,7 +12,7 @@ public class FormularioInsertarLibroAccion extends Accion {
 
 	@Override
 	public String ejecutar(HttpServletRequest request, HttpServletResponse response) {
-		LibroService libroService = (LibroService) getBean("libroService");
+		LibroService libroService = (LibroService) getBean("libroService", request);
 		List<Categoria> listaDeCategorias = libroService.buscarCategoriasLibros();
 		request.setAttribute("listaDeCategorias", listaDeCategorias);
 		return "FormularioInsertarLibro.jsp";
